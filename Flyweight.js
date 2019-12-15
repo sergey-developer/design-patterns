@@ -18,32 +18,32 @@ class HouseFlyweightFactory {
   }
 
   constructor(initialFlyweights) {
-    this.flyweights = {}
+    this.cache = {}
 
     initialFlyweights.forEach(flyweight => {
       const key = HouseFlyweightFactory.getKey(flyweight)
-      this.flyweights[key] = new FlyweightHouse(flyweight)
+      this.cache[key] = new FlyweightHouse(flyweight)
     })
   }
 
   getFlyweight(sharedState) {
     const key = HouseFlyweightFactory.getKey(sharedState)
 
-    if (!(key in this.flyweights)) {
+    if (!(key in this.cache)) {
       console.log("Can't find existing flyweight. Creating new one.");
-      this.flyweights[key] = new FlyweightHouse(sharedState)
+      this.cache[key] = new FlyweightHouse(sharedState)
     } else {
       console.log('Reusing existing flyweight.');
     }
 
-    return this.flyweights[key]
+    return this.cache[key]
   }
 
   listFlyweight() {
-    const count = Object.keys(this.flyweights).length
+    const count = Object.keys(this.cache).length
     console.log(`HouseFlyweightFactory: I have ${count} flyweights`);
 
-    Object.keys(this.flyweights).forEach((key, index) => {
+    Object.keys(this.cache).forEach((key, index) => {
       console.log(`Flyweight key ${index + 1}: ${key}`);
     })
   }
